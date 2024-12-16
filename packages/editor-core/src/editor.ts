@@ -18,7 +18,7 @@ export interface TimelineClip {
   type: 'video' | 'audio' | 'image';
 }
 
-export class VideoEditorCore {
+export class EditorCore {
   private videoElement: HTMLVideoElement;
   private previewElement: HTMLVideoElement | null = null;
   private canvas: OffscreenCanvas;

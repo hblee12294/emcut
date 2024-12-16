@@ -1,9 +1,9 @@
-import { VideoEditor } from "../components/video-editor";
+import { Editor } from "@/components/editor";
 
-export default function HomePage() {
+export default function Home() {
   return (
     <main className="container mx-auto py-6">
-      <VideoEditor />
+      <Editor />
     </main>
   );
 }

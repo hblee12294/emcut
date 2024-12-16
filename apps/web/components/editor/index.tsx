@@ -1,18 +1,18 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
-import { VideoEditorCore, VideoMetadata, Frame } from "@repo/video-editor-core";
-import { Button } from "@repo/ui/button";
-import { Slider } from "@repo/ui/slider";
-import { Card } from "@repo/ui/card";
+import { EditorCore, VideoMetadata, Frame } from "@emcut/editor-core";
+import { Button } from "@emcut/ui/button";
+import { Slider } from "@emcut/ui/slider";
+import { Card } from "@emcut/ui/card";
 import { PlayIcon, PauseIcon } from "@radix-ui/react-icons";
 
-interface VideoEditorProps {
+interface EditorProps {
   className?: string;
 }
 
-export function VideoEditor({ className }: VideoEditorProps) {
-  const editorRef = useRef<VideoEditorCore | null>(null);
+export function Editor({ className }: EditorProps) {
+  const editorRef = useRef<EditorCore | null>(null);
   const [metadata, setMetadata] = useState<VideoMetadata | null>(null);
   const [currentTime, setCurrentTime] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
@@ -20,7 +20,7 @@ export function VideoEditor({ className }: VideoEditorProps) {
   const videoRef = useRef<HTMLVideoElement>(null);
 
   useEffect(() => {
-    editorRef.current = new VideoEditorCore();
+    editorRef.current = new EditorCore();
     editorRef.current.setPlaybackCallback((time) => {
       setCurrentTime(time);
     });
