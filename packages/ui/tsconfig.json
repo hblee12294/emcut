@@ -1,8 +1,14 @@
 {
   "extends": "@emcut/typescript-config/react-library.json",
   "compilerOptions": {
-    "outDir": "dist"
+    "outDir": "dist",
+    "module": "esnext",
+    "moduleResolution": "bundler",
+    "isolatedModules": true,
+    "paths": {
+      "@/*": ["./*"]
+    }
   },
-  "include": ["src"],
+  "include": ["**/*.ts", "**/*.tsx",],
   "exclude": ["node_modules", "dist"]
 }

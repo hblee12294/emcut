@@ -4,11 +4,11 @@
   "type": "module",
   "private": true,
   "exports": {
-    "./button": "./src/button.tsx",
-    "./card": "./src/card.tsx",
-    "./code": "./src/code.tsx",
-    "./slider": "./src/slider.tsx",
-    "./utils": "./src/utils.ts"
+    "./button": "./components/button.tsx",
+    "./card": "./components/card.tsx",
+    "./code": "./components/code.tsx",
+    "./slider": "./components/slider.tsx",
+    "./utils": "./components/utils.ts"
   },
   "scripts": {
     "lint": "eslint . --max-warnings 0",
@@ -27,10 +27,11 @@
   "dependencies": {
     "@radix-ui/react-icons": "^1.3.0",
     "@radix-ui/react-slider": "^1.1.2",
+    "@radix-ui/react-slot": "^1.1.1",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.0.0",
-    "tailwind-merge": "^2.1.0",
     "react": "^19.0.0",
-    "react-dom": "^19.0.0"
+    "react-dom": "^19.0.0",
+    "tailwind-merge": "^2.1.0"
   }
 }

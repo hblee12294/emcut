@@ -1,5 +1,6 @@
 import * as SliderPrimitive from "@radix-ui/react-slider";
-import { cn } from "./utils";
+
+import { cn } from "@/lib/utils";
 
 interface SliderProps {
   min: number;
@@ -25,7 +26,7 @@ export function Slider({
         className
       )}
       value={[value]}
-      onValueChange={(values: number[]) => onValueChange(values[0])}
+      onValueChange={(values: number[]) => onValueChange(values[0]!)}
       max={max}
       min={min}
       step={step}

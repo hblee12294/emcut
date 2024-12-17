@@ -15,7 +15,7 @@ export interface TimelineClip {
   startTime: number;
   endTime: number;
   source: string;
-  type: 'video' | 'audio' | 'image';
+  type: "video" | "audio" | "image";
 }
 
 export class EditorCore {
@@ -29,16 +29,18 @@ export class EditorCore {
   private playbackCallback: ((currentTime: number) => void) | null = null;
 
   constructor() {
-    this.videoElement = document.createElement('video');
+    this.videoElement = document.createElement("video");
     this.canvas = new OffscreenCanvas(1, 1);
-    this.context = this.canvas.getContext('2d') as OffscreenCanvasRenderingContext2D;
-    
+    this.context = this.canvas.getContext(
+      "2d"
+    ) as OffscreenCanvasRenderingContext2D;
+
     // Setup video event listeners
-    this.videoElement.addEventListener('timeupdate', () => {
+    this.videoElement.addEventListener("timeupdate", () => {
       this.playbackCallback?.(this.videoElement.currentTime);
     });
-    
-    this.videoElement.addEventListener('ended', () => {
+
+    this.videoElement.addEventListener("ended", () => {
       this.isPlaying = false;
       this.playbackCallback?.(this.videoElement.currentTime);
       this.previewElement?.pause();
@@ -54,7 +56,7 @@ export class EditorCore {
   setPlaybackCallback(callback: (currentTime: number) => void) {
     this.playbackCallback = callback;
   }
-  
+
   play() {
     if (!this.metadata) return;
     this.isPlaying = true;
@@ -90,54 +92,62 @@ export class EditorCore {
 
   async loadVideo(file: File): Promise<VideoMetadata> {
     const url = URL.createObjectURL(file);
-    
+
     return new Promise((resolve, reject) => {
       this.videoElement.src = url;
       if (this.previewElement) {
         this.previewElement.src = url;
       }
-      
+
       this.videoElement.onloadedmetadata = () => {
         this.metadata = {
           duration: this.videoElement.duration,
           width: this.videoElement.videoWidth,
           height: this.videoElement.videoHeight,
-          fps: 30 // Default FPS, could be detected from video
+          fps: 30, // Default FPS, could be detected from video
         };
-        
+
         this.canvas.width = this.metadata.width;
         this.canvas.height = this.metadata.height;
-        
+
         resolve(this.metadata);
       };
-      
+
       this.videoElement.onerror = reject;
     });
   }
 
   async extractFrame(timestamp: number): Promise<Frame> {
-    if (!this.metadata) throw new Error('No video loaded');
-    
+    if (!this.metadata) throw new Error("No video loaded");
+
     this.videoElement.currentTime = timestamp;
-    
+
     return new Promise((resolve) => {
       this.videoElement.onseeked = () => {
         this.context.drawImage(this.videoElement, 0, 0);
-        const imageData = this.context.getImageData(0, 0, this.metadata!.width, this.metadata!.height);
-        
+        const imageData = this.context.getImageData(
+          0,
+          0,
+          this.metadata!.width,
+          this.metadata!.height
+        );
+
         resolve({
           timestamp,
-          imageData
+          imageData,
         });
       };
     });
   }
 
   async exportFrame(frame: Frame): Promise<Blob> {
-    const canvas = new OffscreenCanvas(frame.imageData.width, frame.imageData.height);
-    const ctx = canvas.getContext('2d') as OffscreenCanvasRenderingContext2D;
+    const canvas = new OffscreenCanvas(
+      frame.imageData.width,
+      frame.imageData.height
+    );
+    const ctx = canvas.getContext("2d") as OffscreenCanvasRenderingContext2D;
     ctx.putImageData(frame.imageData, 0, 0);
-    return canvas.convertToBlob({ type: 'image/png' });
+    return canvas.convertToBlob({ type: "image/png" });
   }
 
   seekTo(timestamp: number): void {
@@ -149,14 +159,14 @@ export class EditorCore {
     }
   }
 
-  addClip(clip: Omit<TimelineClip, 'id'>): string {
+  addClip(clip: Omit<TimelineClip, "id">): string {
     const id = crypto.randomUUID();
     this.timeline.push({ ...clip, id });
     return id;
   }
 
   removeClip(id: string): void {
-    this.timeline = this.timeline.filter(clip => clip.id !== id);
+    this.timeline = this.timeline.filter((clip) => clip.id !== id);
   }
 
   getTimeline(): TimelineClip[] {
@@ -165,8 +175,13 @@ export class EditorCore {
 
   getCurrentFrame(): ImageData | null {
     if (!this.metadata) return null;
-    
+
     this.context.drawImage(this.videoElement, 0, 0);
-    return this.context.getImageData(0, 0, this.metadata.width, this.metadata.height);
+    return this.context.getImageData(
+      0,
+      0,
+      this.metadata.width,
+      this.metadata.height
+    );
   }
-} 
+}

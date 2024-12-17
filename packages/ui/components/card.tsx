@@ -1,5 +1,6 @@
-import { cn } from "./utils";
 import { ReactNode } from "react";
+
+import { cn } from "@/lib/utils";
 
 interface CardProps {
   className?: string;
